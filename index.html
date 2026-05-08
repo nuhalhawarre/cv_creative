@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV Builder Premium A4 | Portal Pelajar</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --accent: #c8a96e;
+    --accent-light: #f5ecd7;
+    --text-dark: #1a1a2e;
+    --text-muted: #6b7280;
+    --border: #e5e0d5;
+    --bg-sidebar: #f8f5ef;
+    --page-bg: #f0ebe0;
+    --white: #ffffff;
+    --cv-primary: #1a3a5c;
+    --cv-accent: #c8a96e;
+    --cv-border: #d4c9b0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--page-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== HEADER ===== */
+  .site-header {
+    background: var(--primary);
+    color: white;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .site-header .logo {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .site-header .logo span { color: var(--accent); }
+  .header-actions { display: flex; gap: 10px; }
+  .btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.4);
+    color: white;
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.1); }
+  .btn-gold {
+    background: var(--accent);
+    color: #1a1a2e;
+    font-weight: 700;
+  }
+  .btn-gold:hover { background: #b8954f; }
+
+  /* ===== MAIN LAYOUT ===== */
+  .main-layout {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 0;
+    flex: 1;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 24px;
+    gap: 24px;
+  }
+
+  /* ===== FORM PANEL ===== */
+  .form-panel {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 100px);
+  }
+  .form-panel-header {
+    background: var(--primary);
+    color: white;
+    padding: 16px 20px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .form-panel-body {
+    overflow-y: auto;
+    flex: 1;
+    padding: 20px;
+  }
+  .form-panel-body::-webkit-scrollbar { width: 4px; }
+  .form-panel-body::-webkit-scrollbar-track { background: #f0f0f0; }
+  .form-panel-body::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+  .form-section {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .form-section:last-child { border-bottom: none; margin-bottom: 0; }
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-grid.full { grid-template-columns: 1fr; }
+
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-group label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-dark);
+    transition: border-color 0.2s;
+    background: white;
+    width: 100%;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
+  }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+
+  /* Color theme picker */
+  .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .theme-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .theme-dot.active, .theme-dot:hover { border-color: var(--text-dark); transform: scale(1.1); }
+
+  /* Photo upload */
+  .photo-upload {
+    width: 90px; height: 110px;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 4px;
+    transition: all 0.2s;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .photo-upload:hover { border-color: var(--accent); background: var(--accent-light); }
+  .photo-upload img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+  .photo-upload span { font-size: 10px; color: var(--text-muted); text-align: center; z-index: 1; }
+  .photo-upload svg { color: var(--text-muted); z-index: 1; }
+  #photoInput { display: none; }
+
+  .photo-row { display: flex; gap: 14px; align-items: flex-start; }
+  .photo-row .form-grid { flex: 1; }
+
+  /* Skill bars */
+  .skill-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .skill-row input:first-child { flex: 1; min-width: 0; }
+  .skill-row input[type="range"] { width: 80px; flex-shrink: 0; accent-color: var(--accent); }
+  .skill-val { font-size: 12px; font-weight: 600; color: var(--primary); min-width: 24px; }
+
+  /* ===== CV PREVIEW ===== */
+  .preview-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    overflow-y: auto;
+    max-height: calc(100vh - 100px);
+    padding-right: 8px;
+  }
+  .preview-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    align-self: flex-start;
+  }
+
+  /* A4 CV */
+  .cv-page {
+    background: white;
+    width: 794px;
+    min-height: 1123px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+    font-size: 10.5px;
+    transform-origin: top center;
+    transform: scale(0.78);
+    margin-bottom: -220px;
+  }
+
+  .cv-sidebar {
+    width: 240px;
+    background: var(--cv-primary);
+    float: left;
+    min-height: 1123px;
+    padding: 28px 20px;
+    color: white;
+    position: relative;
+  }
+
+  .cv-main {
+    margin-left: 240px;
+    padding: 28px 24px;
+    min-height: 1123px;
+  }
+
+  /* CV Photo */
+  .cv-photo-wrap {
+    width: 100px; height: 120px;
+    margin: 0 auto 16px;
+    border: 3px solid var(--cv-accent);
+    border-radius: 6px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cv-photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .cv-photo-placeholder {
+    font-size: 9px;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 8px;
+  }
+
+  /* CV Name */
+  .cv-name {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .cv-name h1 {
+    font-family: 'Amiri', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .cv-name .arabic-name {
+    font-family: 'Amiri', serif;
+    font-size: 14px;
+    direction: rtl;
+    color: var(--cv-accent);
+  }
+
+  /* CV Sidebar sections */
+  .cv-s-section { margin-bottom: 18px; }
+  .cv-s-title {
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--cv-accent);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(200, 169, 110, 0.3);
+    display: flex;
+    justify-content: space-between;
+  }
+  .cv-s-title .ar { font-family: 'Amiri', serif; font-size: 9px; letter-spacing: 0; text-transform: none; direction: rtl; }
+
+  .cv-info-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 6px;
+  }
+  .cv-info-label { font-size: 7px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.5px; }
+  .cv-info-val { font-size: 9px; color: rgba(255,255,255,0.9); word-break: break-all; }
+
+  /* Skill bar CV */
+  .cv-skill { margin-bottom: 8px; }
+  .cv-skill-name { font-size: 9px; color: rgba(255,255,255,0.85); margin-bottom: 3px; display: flex; justify-content: space-between; }
+  .cv-skill-bar { height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; overflow: hidden; }
+  .cv-skill-fill { height: 100%; background: var(--cv-accent); border-radius: 2px; transition: width 0.4s; }
+
+  /* CV Main */
+  .cv-m-name {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2.5px solid var(--cv-primary);
+  }
+  .cv-m-name h2 { font-size: 22px; font-weight: 700; color: var(--cv-primary); font-family: 'Plus Jakarta Sans', sans-serif; }
+  .cv-m-subtitle {
+    font-family: 'Amiri', serif;
+    font-size: 14px;
+    color: var(--cv-accent);
+    direction: rtl;
+    text-align: right;
+  }
+
+  .cv-m-section { margin-bottom: 16px; }
+  .cv-m-title {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--cv-primary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cv-m-title::after { content: ''; flex: 1; height: 1.5px; background: var(--cv-primary); opacity: 0.2; }
+  .cv-m-title .ar { font-family: 'Amiri', serif; letter-spacing: 0; text-transform: none; direction: rtl; font-size: 10px; }
+
+  .cv-summary { font-size: 9.5px; color: #444; line-height: 1.6; }
+  .cv-summary .ar { font-family: 'Amiri', serif; direction: rtl; display: block; font-size: 11px; color: #555; margin-top: 6px; text-align: right; }
+
+  .cv-edu-item, .cv-exp-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px;
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    background: #f9f7f3;
+    border-radius: 6px;
+    border-left: 3px solid var(--cv-accent);
+  }
+  .cv-edu-degree { font-size: 9.5px; font-weight: 700; color: var(--cv-primary); }
+  .cv-edu-school { font-size: 9px; color: #666; }
+  .cv-edu-gpa { font-size: 9px; color: var(--cv-accent); font-weight: 600; }
+  .cv-edu-year { font-size: 8px; color: #999; text-align: right; }
+
+  .cv-award-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 6px;
+    font-size: 9px;
+    color: #555;
+  }
+  .cv-award-item::before { content: '★'; color: var(--cv-accent); font-size: 9px; flex-shrink: 0; }
+
+  .cv-rel-item {
+    background: #f9f7f3;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--cv-primary);
+  }
+  .cv-rel-desc { font-size: 9px; color: #555; }
+  .cv-rel-desc .ar { font-family: 'Amiri', serif; direction: rtl; display: block; text-align: right; font-size: 10.5px; color: #666; margin-top: 3px; }
+
+  @media print {
+    body { background: white; }
+    .site-header, .form-panel, .preview-label { display: none; }
+    .main-layout { padding: 0; grid-template-columns: 1fr; }
+    .preview-wrap { max-height: none; overflow: visible; align-items: flex-start; }
+    .cv-page { transform: none !important; margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">Portal<span>Pelajar</span> · CV Builder Premium</div>
+  <div class="header-actions">
+    <button class="btn btn-outline" onclick="window.print()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Cetak PDF
+    </button>
+  </div>
+</header>
+
+<div class="main-layout">
+  <!-- FORM PANEL -->
+  <div class="form-panel">
+    <div class="form-panel-header">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Isi Data CV Kamu
+    </div>
+    <div class="form-panel-body">
+
+      <!-- TEMA -->
+      <div class="form-section">
+        <div class="section-title">Tema Warna</div>
+        <div class="theme-picker">
+          <div class="theme-dot active" style="background:#1a3a5c" data-color="#1a3a5c" title="Navy Classic" onclick="setTheme('#1a3a5c', this)"></div>
+          <div class="theme-dot" style="background:#2d5a27" data-color="#2d5a27" title="Forest Green" onclick="setTheme('#2d5a27', this)"></div>
+          <div class="theme-dot" style="background:#6b2d3e" data-color="#6b2d3e" title="Burgundy" onclick="setTheme('#6b2d3e', this)"></div>
+          <div class="theme-dot" style="background:#1a3a4a" data-color="#1a3a4a" title="Teal Dark" onclick="setTheme('#1a3a4a', this)"></div>
+          <div class="theme-dot" style="background:#3b2d7a" data-color="#3b2d7a" title="Royal Purple" onclick="setTheme('#3b2d7a', this)"></div>
+          <div class="theme-dot" style="background:#4a3000" data-color="#4a3000" title="Dark Brown" onclick="setTheme('#4a3000', this)"></div>
+          <div class="theme-dot" style="background:#1c1c1c" data-color="#1c1c1c" title="Charcoal" onclick="setTheme('#1c1c1c', this)"></div>
+        </div>
+      </div>
+
+      <!-- FOTO & NAMA -->
+      <div class="form-section">
+        <div class="section-title">Identitas Utama</div>
+        <div class="photo-row">
+          <div class="photo-upload" onclick="document.getElementById('photoInput').click()">
+            <img id="photoPreview" src="" style="display:none" alt="foto">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" id="photoIcon"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Unggah Foto<br>4×6</span>
+          </div>
+          <input type="file" id="photoInput" accept="image/*" onchange="loadPhoto(this)">
+          <div class="form-grid full" style="flex:1">
+            <div class="form-group">
+              <label>Nama Lengkap (Latin)</label>
+              <input type="text" id="f_name" placeholder="Nama Lengkap" oninput="update()">
+            </div>
+            <!-- <div class="form-group">
+              <label>الاسم بالعربية (Nama Arab)</label>
+              <input type="text" id="f_name_ar" placeholder="الاسم بالعربي" oninput="update()" style="direction:rtl;text-align:right">
+            </div> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- DATA PRIBADI -->
+      <div class="form-section">
+        <div class="section-title">Data Pribadi</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Tanggal Lahir</label>
+            <input type="date" id="f_dob" oninput="update()">
+          </div>
+          <div class="form-group">
+            <label>Warga Negara</label>
+            <input type="text" id="f_nat" value="Indonesia" oninput="update()">
+          </div>
+          <div class="form-group">
+            <label>Nomor WA/HP</label>
+            <input type="text" id="f_phone" placeholder="+62 ..." oninput="update()">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="f_email" placeholder="email@..." oninput="update()">
+          </div>
+          <!-- <div class="form-group">
+            <label>No. Paspor / ID</label>
+            <input type="text" id="f_pass" placeholder="A1234567" oninput="update()">
+          </div> -->
+          <!-- <div class="form-group">
+            <label>Berlaku Hingga</label>
+            <input type="date" id="f_exp" oninput="update()">
+          </div> -->
+        </div>
+        <div class="form-grid full" style="margin-top:10px">
+          <div class="form-group">
+            <label>Alamat (Latin)</label>
+            <input type="text" id="f_addr" placeholder="Jl. Contoh No. 1, Kota" oninput="update()">
+          </div>
+          <!-- <div class="form-group">
+            <label>العنوان (Alamat Arab)</label>
+            <input type="text" id="f_addr_ar" placeholder="العنوان بالعربي" oninput="update()" style="direction:rtl;text-align:right">
+          </div> -->
+        </div>
+      </div>
+
+      <!-- RINGKASAN -->
+      <div class="form-section">
+        <div class="section-title">Ringkasan Profesional</div>
+        <div class="form-group">
+          <label>Deskripsi </label>
+          <textarea id="f_summary" placeholder="Deskripsikan diri kamu secara singkat..." oninput="update()"></textarea>
+        </div>
+        <!-- <div class="form-group" style="margin-top:8px">
+          <label>الملخص (Arab)</label>
+          <textarea id="f_summary_ar" placeholder="الملخص المهني..." oninput="update()" style="direction:rtl;text-align:right"></textarea>
+        </div> -->
+      </div>
+
+      <!-- PENDIDIKAN -->
+      <div class="form-section">
+        <div class="section-title">Pendidikan</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Jenjang / Jurusan</label>
+            <input type="text" id="f_edu_degree"oninput="update()">
+          </div>
+          <div class="form-group">
+            <label>Nama Institusi</label>
+            <input type="text" id="f_edu_school"oninput="update()">
+          </div>
+          <div class="form-group">
+            <label>Tahun Masuk - Lulus</label>
+            <input type="text" id="f_edu_year" placeholder="2020 – 2024" oninput="update()">
+          </div>
+          <div class="form-group">
+            <label>IPK / GPA</label>
+            <input type="text" id="f_edu_gpa" placeholder="3.85 / 4.00" oninput="update()">
+          </div>
+        </div>
+      </div>
+
+      <!-- PENGALAMAN -->
+      <div class="form-section">
+        <div class="section-title">Pengalaman</div>
+        <div class="form-group">
+          <label>Jabatan / Posisi</label>
+          <!-- <input type="text" id="f_exp_pos" placeholder="Guru Bahasa Arab" oninput="update()"> -->
+        </div>
+        <div class="form-group" style="margin-top:8px">
+          <label>Deskripsi </label>
+          <textarea id="f_exp_desc" placeholder="Deskripsi pekerjaan..." oninput="update()"></textarea>
+        </div>
+        <!-- <div class="form-group" style="margin-top:8px">
+          <label>الوصف (Arab)</label>
+          <textarea id="f_exp_desc_ar" placeholder="وصف الخبرة بالعربية..." oninput="update()" style="direction:rtl;text-align:right"></textarea>
+        </div> -->
+      </div>
+
+      <!-- KEAHLIAN KEAGAMAAN -->
+      <div class="form-section">
+        <div class="section-title">Keahlian </div>
+        <div class="form-group">
+          <label>Deskripsi </label>
+          <textarea id="f_rel" placeholder="Kemampuan keahlian..." oninput="update()"></textarea>
+        </div>
+        <!-- <div class="form-group" style="margin-top:8px">
+          <label>الخبرات الدينية (Arab)</label>
+          <textarea id="f_rel_ar" placeholder="حفظ القرآن الكريم..." oninput="update()" style="direction:rtl;text-align:right"></textarea>
+        </div> -->
+      </div>
+
+      <!-- PENGHARGAAN -->
+      <div class="form-section">
+        <div class="section-title">Penghargaan & Sertifikat</div>
+        <div class="form-group">
+          <label>Penghargaan 1</label>
+          <input type="text" id="f_award1"oninput="update()">
+        </div>
+        <div class="form-group" style="margin-top:8px">
+          <label>Penghargaan 2</label>
+          <input type="text" id="f_award2"oninput="update()">
+        </div>
+      </div>
+
+      <!-- KEAHLIAN -->
+      <div class="form-section">
+        <div class="section-title">Keahlian Tambahan</div>
+
+        <div class="form-group" style="margin-bottom:10px">
+          <label>Label Bahasa Arab</label>
+          <div class="skill-row">
+            <input type="text" id="f_sk_ar_lbl" value="Bahasa Arab" oninput="update()">
+            <input type="range" id="f_sk_ar" min="0" max="100" value="85" oninput="update()">
+            <span class="skill-val" id="f_sk_ar_val">85%</span>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:10px">
+          <label>Label Bahasa Inggris</label>
+          <div class="skill-row">
+            <input type="text" id="f_sk_en_lbl" value="Bahasa Inggris" oninput="update()">
+            <input type="range" id="f_sk_en" min="0" max="100" value="70" oninput="update()">
+            <span class="skill-val" id="f_sk_en_val">70%</span>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:10px">
+          <label>Skill Teknis</label>
+          <div class="skill-row">
+            <input type="text" id="f_sk_tech_lbl" value="Microsoft Office" oninput="update()">
+            <input type="range" id="f_sk_tech" min="0" max="100" value="80" oninput="update()">
+            <span class="skill-val" id="f_sk_tech_val">80%</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Soft Skills</label>
+          <div class="skill-row">
+            <input type="text" id="f_sk_soft_lbl" value="Kepemimpinan" oninput="update()">
+            <input type="range" id="f_sk_soft" min="0" max="100" value="75" oninput="update()">
+            <span class="skill-val" id="f_sk_soft_val">75%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PREVIEW PANEL -->
+  <div class="preview-wrap">
+    <div class="preview-label">Preview CV (A4)</div>
+
+    <div class="cv-page" id="cvPage">
+      <!-- SIDEBAR -->
+      <div class="cv-sidebar">
+
+        <!-- Photo -->
+        <div class="cv-photo-wrap">
+          <img id="cv_photo" src="" style="display:none" alt="foto">
+          <div class="cv-photo-placeholder" id="cv_photo_placeholder">Foto<br>4×6</div>
+        </div>
+
+        <!-- Name (sidebar version for small) -->
+        <div class="cv-name">
+          <h1 id="cv_name">Nama Lengkap</h1>
+          <!-- <div class="arabic-name" id="cv_name_ar">الاسم الكامل</div> -->
+        </div>
+
+        <!-- Info Pribadi -->
+        <div class="cv-s-section">
+          <div class="cv-s-title">Info Pribadi </div>
+          <div class="cv-info-row"><span class="cv-info-label">Tgl. Lahir</span><span class="cv-info-val" id="cv_dob">—</span></div>
+          <div class="cv-info-row"><span class="cv-info-label">Warga Negara</span><span class="cv-info-val" id="cv_nat">Indonesia</span></div>
+          <div class="cv-info-row"><span class="cv-info-label">HP</span><span class="cv-info-val" id="cv_phone">—</span></div>
+          <div class="cv-info-row"><span class="cv-info-label">Email</span><span class="cv-info-val" id="cv_email">—</span></div>
+          <!-- <div class="cv-info-row"><span class="cv-info-label">Paspor</span><span class="cv-info-val" id="cv_pass">—</span></div> -->
+          <!-- <div class="cv-info-row"><span class="cv-info-label">Berlaku / الانتهاء</span><span class="cv-info-val" id="cv_exp">—</span></div> -->
+          <div class="cv-info-row"><span class="cv-info-label">Alamat</span><span class="cv-info-val" id="cv_addr">—</span></div>
+        </div>
+
+        <!-- Skills -->
+        <div class="cv-s-section">
+          <div class="cv-s-title">Keahlian </div>
+          <div class="cv-skill">
+            <div class="cv-skill-name"><span id="cv_sk_ar_lbl">Bahasa Arab</span><span id="cv_sk_ar_pct">85%</span></div>
+            <div class="cv-skill-bar"><div class="cv-skill-fill" id="cv_sk_ar_fill" style="width:85%"></div></div>
+          </div>
+          <div class="cv-skill">
+            <div class="cv-skill-name"><span id="cv_sk_en_lbl">Bahasa Inggris</span><span id="cv_sk_en_pct">70%</span></div>
+            <div class="cv-skill-bar"><div class="cv-skill-fill" id="cv_sk_en_fill" style="width:70%"></div></div>
+          </div>
+          <div class="cv-skill">
+            <div class="cv-skill-name"><span id="cv_sk_tech_lbl">Microsoft Office</span><span id="cv_sk_tech_pct">80%</span></div>
+            <div class="cv-skill-bar"><div class="cv-skill-fill" id="cv_sk_tech_fill" style="width:80%"></div></div>
+          </div>
+          <div class="cv-skill">
+            <div class="cv-skill-name"><span id="cv_sk_soft_lbl">Kepemimpinan</span><span id="cv_sk_soft_pct">75%</span></div>
+            <div class="cv-skill-bar"><div class="cv-skill-fill" id="cv_sk_soft_fill" style="width:75%"></div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MAIN CONTENT -->
+      <div class="cv-main">
+
+        <!-- Header nama -->
+        <div class="cv-m-name">
+          <h2 id="cv_m_name">Nama Lengkap</h2>
+          <!-- <div class="cv-m-subtitle" id="cv_m_name_ar">الاسم بالعربية</div> -->
+        </div>
+
+        <!-- Summary -->
+        <div class="cv-m-section">
+          <div class="cv-m-title">Ringkasan Profesional </div>
+          <div class="cv-summary">
+            <span id="cv_summary">Tuliskan ringkasan singkat mengenai diri kamu di sini.</span>
+            <!-- <span class="ar" id="cv_summary_ar">اكتب ملخصك المهني هنا.</span> -->
+          </div>
+        </div>
+
+        <!-- Pendidikan -->
+        <div class="cv-m-section">
+          <div class="cv-m-title">Pendidikan </div>
+          <div class="cv-edu-item">
+            <div>
+              <div class="cv-edu-degree" id="cv_edu_degree">Jenjang / Jurusan</div>
+              <div class="cv-edu-school" id="cv_edu_school">Nama Institusi</div>
+              <div class="cv-edu-gpa" id="cv_edu_gpa">IPK: —</div>
+            </div>
+            <div class="cv-edu-year" id="cv_edu_year">Tahun</div>
+          </div>
+        </div>
+
+        <!-- Pengalaman -->
+        <div class="cv-m-section">
+          <div class="cv-m-title">Pengalaman </div>
+          <div class="cv-exp-item">
+            <div>
+              <div class="cv-edu-degree" id="cv_exp_pos">Jabatan / Posisi</div>
+              <div class="cv-rel-desc">
+                <span id="cv_exp_desc">Deskripsi pengalaman kamu.</span>
+                <!-- <span class="ar" id="cv_exp_desc_ar">وصف الخبرة.</span> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keahlian Keagamaan -->
+        <div class="cv-m-section">
+          <div class="cv-m-title">Keahlian </div>
+          <div class="cv-rel-item">
+            <div class="cv-rel-desc">
+              <span id="cv_rel">Deskripsi keahlian keagamaan kamu.</span>
+              <!-- <span class="ar" id="cv_rel_ar">الخبرات الدينية.</span> -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Penghargaan -->
+        <div class="cv-m-section">
+          <div class="cv-m-title">Penghargaan & Sertifikat </div>
+          <div class="cv-award-item" id="cv_award1_wrap">
+            <span id="cv_award1">—</span>
+          </div>
+          <div class="cv-award-item" id="cv_award2_wrap">
+            <span id="cv_award2">—</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function g(id) { return document.getElementById(id); }
+function v(id) { return g(id) ? g(id).value : ''; }
+function s(id, val) { if (g(id)) g(id).textContent = val || '—'; }
+
+function update() {
+  // Skills label sync
+  ['ar', 'en', 'tech', 'soft'].forEach(k => {
+    const pct = v(`f_sk_${k}`);
+    g(`f_sk_${k}_val`).textContent = pct + '%';
+    s(`cv_sk_${k}_lbl`, v(`f_sk_${k}_lbl`));
+    s(`cv_sk_${k}_pct`, pct + '%');
+    g(`cv_sk_${k}_fill`).style.width = pct + '%';
+  });
+
+  // Name
+  const name = v('f_name') || 'Nama Lengkap';
+  const nameAr = v('f_name_ar') || 'الاسم الكامل';
+  s('cv_name', name); s('cv_m_name', name);
+  s('cv_name_ar', nameAr); s('cv_m_name_ar', nameAr);
+
+  // Personal info
+  s('cv_dob', v('f_dob') ? new Date(v('f_dob')).toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'}) : '—');
+  s('cv_nat', v('f_nat'));
+  s('cv_phone', v('f_phone'));
+  s('cv_email', v('f_email'));
+  s('cv_pass', v('f_pass'));
+  s('cv_exp', v('f_exp') ? new Date(v('f_exp')).toLocaleDateString('id-ID', {month:'long',year:'numeric'}) : '—');
+  s('cv_addr', v('f_addr'));
+
+  // Summary
+  s('cv_summary', v('f_summary') || 'Tuliskan ringkasan singkat mengenai diri kamu di sini.');
+  s('cv_summary_ar', v('f_summary_ar') || 'اكتب ملخصك المهني هنا.');
+
+  // Education
+  s('cv_edu_degree', v('f_edu_degree') || 'Jenjang / Jurusan');
+  s('cv_edu_school', v('f_edu_school') || 'Nama Institusi');
+  s('cv_edu_gpa', v('f_edu_gpa') ? 'IPK: ' + v('f_edu_gpa') : 'IPK: —');
+  s('cv_edu_year', v('f_edu_year') || '—');
+
+  // Experience
+  s('cv_exp_pos', v('f_exp_pos') || 'Jabatan / Posisi');
+  s('cv_exp_desc', v('f_exp_desc') || 'Deskripsi pengalaman kamu.');
+  s('cv_exp_desc_ar', v('f_exp_desc_ar') || 'وصف الخبرة.');
+
+  // Religious
+  s('cv_rel', v('f_rel') || 'Deskripsi keahlian keagamaan kamu.');
+  s('cv_rel_ar', v('f_rel_ar') || 'الخبرات الدينية.');
+
+  // Awards
+  s('cv_award1', v('f_award1') || '—');
+  s('cv_award2', v('f_award2') || '—');
+}
+
+function loadPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    g('photoPreview').src = e.target.result;
+    g('photoPreview').style.display = 'block';
+    g('photoIcon').style.display = 'none';
+    g('cv_photo').src = e.target.result;
+    g('cv_photo').style.display = 'block';
+    g('cv_photo_placeholder').style.display = 'none';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+function setTheme(color, dot) {
+  document.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active'));
+  dot.classList.add('active');
+  document.documentElement.style.setProperty('--cv-primary', color);
+  g('cvPage').querySelectorAll('.cv-sidebar').forEach(el => el.style.background = color);
+}
+
+// Init
+update();
+</script>
+</body>
+</html>
