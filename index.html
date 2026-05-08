@@ -164,6 +164,22 @@
     background: white;
     width: 100%;
   }
+  .form-group input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 8px 10px;
+  line-height: 1.5;
+  height: 36px;
+}
+
+/* Sembunyikan/rapikan ikon kalender */
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
   .form-group input:focus,
   .form-group textarea:focus {
     outline: none;
